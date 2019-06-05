@@ -1,0 +1,187 @@
+2019-06-05 18:44:23,618 INFO [org.geoserver] - GeoServer configuration lock is enabled
+2019-06-05 18:44:23,754 INFO [org.geoserver] - Loaded style 'pophatch'
+2019-06-05 18:44:23,755 INFO [org.geoserver] - Loaded style 'simple_roads'
+2019-06-05 18:44:23,755 INFO [org.geoserver] - Loaded style 'burg'
+2019-06-05 18:44:23,756 INFO [org.geoserver] - Loaded style 'poi'
+2019-06-05 18:44:23,757 INFO [org.geoserver] - Loaded style 'polygon'
+2019-06-05 18:44:23,757 INFO [org.geoserver] - Loaded style 'population'
+2019-06-05 18:44:23,758 INFO [org.geoserver] - Loaded style 'giant_polygon'
+2019-06-05 18:44:23,759 INFO [org.geoserver] - Loaded style 'simple_streams'
+2019-06-05 18:44:23,759 INFO [org.geoserver] - Loaded style 'raster'
+2019-06-05 18:44:23,760 INFO [org.geoserver] - Loaded style 'tiger_roads'
+2019-06-05 18:44:23,760 INFO [org.geoserver] - Loaded style 'point'
+2019-06-05 18:44:23,761 INFO [org.geoserver] - Loaded style 'restricted'
+2019-06-05 18:44:23,762 INFO [org.geoserver] - Loaded style 'dem'
+2019-06-05 18:44:23,762 INFO [org.geoserver] - Loaded style 'grass'
+2019-06-05 18:44:23,763 INFO [org.geoserver] - Loaded style 'poly_landmarks'
+2019-06-05 18:44:23,764 INFO [org.geoserver] - Loaded style 'green'
+2019-06-05 18:44:23,765 INFO [org.geoserver] - Loaded style 'generic'
+2019-06-05 18:44:23,765 INFO [org.geoserver] - Loaded style 'capitals'
+2019-06-05 18:44:23,766 INFO [org.geoserver] - Loaded style 'line'
+2019-06-05 18:44:23,766 INFO [org.geoserver] - Loaded style 'cite_lakes'
+2019-06-05 18:44:23,766 INFO [org.geoserver] - Loaded style 'rain'
+2019-06-05 18:44:23,767 INFO [org.geoserver] - Loaded default workspace cite
+2019-06-05 18:44:23,782 INFO [org.geoserver] - Loaded workspace 'cite'
+2019-06-05 18:44:23,785 INFO [org.geoserver] - Loaded workspace 'it.geosolutions'
+2019-06-05 18:44:23,787 INFO [org.geoserver] - Loaded workspace 'nurc'
+2019-06-05 18:44:23,788 INFO [org.geoserver] - Loaded workspace 'tiger'
+2019-06-05 18:44:23,790 INFO [org.geoserver] - Loaded workspace 'topp'
+2019-06-05 18:44:23,792 INFO [org.geoserver] - Loaded workspace 'sde'
+2019-06-05 18:44:23,794 INFO [org.geoserver] - Loaded workspace 'sf'
+2019-06-05 18:44:24,074 INFO [org.geoserver] - Loaded coverage store 'img_sample2', enabled
+2019-06-05 18:44:25,644 INFO [org.geoserver] - Loaded coverage 'Pk50095', enabled
+2019-06-05 18:44:25,666 INFO [org.geoserver] - Loaded layer 'Pk50095'
+2019-06-05 18:44:25,667 INFO [org.geoserver] - Loaded coverage store 'arcGridSample', enabled
+2019-06-05 18:44:25,674 INFO [org.geoserver] - Loaded coverage 'Arc_Sample', enabled
+2019-06-05 18:44:25,680 INFO [org.geoserver] - Loaded layer 'Arc_Sample'
+2019-06-05 18:44:25,682 INFO [org.geoserver] - Loaded coverage store 'mosaic', enabled
+2019-06-05 18:44:25,693 INFO [org.geoserver] - Loaded coverage 'mosaic', enabled
+2019-06-05 18:44:25,701 INFO [org.geoserver] - Loaded layer 'mosaic'
+2019-06-05 18:44:25,704 INFO [org.geoserver] - Loaded coverage store 'worldImageSample', enabled
+2019-06-05 18:44:25,710 INFO [org.geoserver] - Loaded coverage 'Img_Sample', enabled
+2019-06-05 18:44:25,713 INFO [org.geoserver] - Loaded layer 'Img_Sample'
+2019-06-05 18:44:25,877 INFO [org.geoserver] - Loaded data store 'nyc', enabled
+2019-06-05 18:44:25,918 INFO [org.geoserver] - Loaded feature type 'poly_landmarks', enabled
+2019-06-05 18:44:25,919 INFO [org.geoserver] - Loaded layer 'poly_landmarks'
+2019-06-05 18:44:25,922 INFO [org.geoserver] - Loaded feature type 'poi', enabled
+2019-06-05 18:44:25,924 INFO [org.geoserver] - Loaded layer 'poi'
+2019-06-05 18:44:25,926 INFO [org.geoserver] - Loaded feature type 'giant_polygon', enabled
+2019-06-05 18:44:25,928 INFO [org.geoserver] - Loaded layer 'giant_polygon'
+2019-06-05 18:44:25,931 INFO [org.geoserver] - Loaded feature type 'tiger_roads', enabled
+2019-06-05 18:44:25,934 INFO [org.geoserver] - Loaded layer 'tiger_roads'
+2019-06-05 18:44:25,941 INFO [org.geoserver] - Loaded data store 'sf', enabled
+2019-06-05 18:44:25,971 INFO [org.geoserver] - Loaded feature type 'bugsites', enabled
+2019-06-05 18:44:25,972 INFO [org.geoserver] - Loaded layer 'bugsites'
+2019-06-05 18:44:25,976 INFO [org.geoserver] - Loaded feature type 'streams', enabled
+2019-06-05 18:44:25,978 INFO [org.geoserver] - Loaded layer 'streams'
+2019-06-05 18:44:25,982 INFO [org.geoserver] - Loaded feature type 'restricted', enabled
+2019-06-05 18:44:25,984 INFO [org.geoserver] - Loaded layer 'restricted'
+2019-06-05 18:44:25,988 INFO [org.geoserver] - Loaded feature type 'archsites', enabled
+2019-06-05 18:44:25,990 INFO [org.geoserver] - Loaded layer 'archsites'
+2019-06-05 18:44:25,996 INFO [org.geoserver] - Loaded feature type 'roads', enabled
+2019-06-05 18:44:25,996 INFO [org.geoserver] - Loaded layer 'roads'
+2019-06-05 18:44:25,998 INFO [org.geoserver] - Loaded coverage store 'sfdem', enabled
+2019-06-05 18:44:26,003 INFO [org.geoserver] - Loaded coverage 'sfdem', enabled
+2019-06-05 18:44:26,005 INFO [org.geoserver] - Loaded layer 'sfdem'
+2019-06-05 18:44:26,013 INFO [org.geoserver] - Loaded data store 'states_shapefile', enabled
+2019-06-05 18:44:26,018 INFO [org.geoserver] - Loaded feature type 'states', enabled
+2019-06-05 18:44:26,020 INFO [org.geoserver] - Loaded layer 'states'
+2019-06-05 18:44:26,025 INFO [org.geoserver] - Loaded data store 'taz_shapes', enabled
+2019-06-05 18:44:26,033 INFO [org.geoserver] - Loaded feature type 'tasmania_water_bodies', enabled
+2019-06-05 18:44:26,036 INFO [org.geoserver] - Loaded layer 'tasmania_water_bodies'
+2019-06-05 18:44:26,039 INFO [org.geoserver] - Loaded feature type 'tasmania_cities', enabled
+2019-06-05 18:44:26,040 INFO [org.geoserver] - Loaded layer 'tasmania_cities'
+2019-06-05 18:44:26,043 INFO [org.geoserver] - Loaded feature type 'tasmania_state_boundaries', enabled
+2019-06-05 18:44:26,044 INFO [org.geoserver] - Loaded layer 'tasmania_state_boundaries'
+2019-06-05 18:44:26,047 INFO [org.geoserver] - Loaded feature type 'tasmania_roads', enabled
+2019-06-05 18:44:26,048 INFO [org.geoserver] - Loaded layer 'tasmania_roads'
+2019-06-05 18:44:26,062 INFO [org.geoserver] - Loaded layer group 'spearfish'
+2019-06-05 18:44:26,063 INFO [org.geoserver] - Loaded layer group 'tiger-ny'
+2019-06-05 18:44:26,064 INFO [org.geoserver] - Loaded layer group 'tasmania'
+2019-06-05 18:44:26,173 INFO [org.geoserver] - Loaded service 'WMTSInfoImpl-7b5fae9d:16b2886ee43:-7ff7', enabled
+2019-06-05 18:44:26,181 INFO [org.geoserver] - Loaded service 'wcs', enabled
+2019-06-05 18:44:26,198 INFO [org.geoserver] - Loaded service 'wfs', enabled
+2019-06-05 18:44:26,215 INFO [org.geoserver] - Loaded service 'wms', enabled
+2019-06-05 18:44:26,251 INFO [config.GeoserverXMLResourceProvider] - Will look for 'geowebcache.xml' in directory '/Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc'.
+2019-06-05 18:44:26,329 WARN [config.GeoserverXMLResourceProvider] - Found no configuration file in config directory, will create one at 'gwc/geowebcache.xml' from template jar:file:/Users/stefan/Downloads/geoserver-2.15.1/webapps/geoserver/WEB-INF/lib/gwc-core-1.15.1.jar!/geowebcache_empty.xml
+2019-06-05 18:44:26,333 INFO [config.GeoserverXMLResourceProvider] - Found configuration file in gwc
+2019-06-05 18:44:26,333 INFO [config.GeoserverXMLResourceProvider] - Found configuration file in gwc
+2019-06-05 18:44:26,391 WARN [config.XMLConfiguration] - ********************************************************************************
+2019-06-05 18:44:26,391 WARN [config.XMLConfiguration] - *** GWC configuration validation error: cvc-elt.1: Cannot find the declaration of element 'gwcConfiguration'.
+2019-06-05 18:44:26,391 WARN [config.XMLConfiguration] - *** Will try to use configuration anyway. Please check the order of declared elements against the schema.
+2019-06-05 18:44:26,391 WARN [config.XMLConfiguration] - ********************************************************************************
+2019-06-05 18:44:26,447 INFO [config.XMLConfiguration] - Initializing GridSets from gwc
+2019-06-05 18:44:26,449 INFO [config.XMLConfiguration] - Initializing layers from gwc
+2019-06-05 18:44:26,495 INFO [gwc.layer] - Initializing GWC configuration based on GeoServer's Catalog
+2019-06-05 18:44:26,496 INFO [gwc.layer] - GeoServer TileLayer store base directory is: gwc-layers
+2019-06-05 18:44:26,496 INFO [gwc.layer] - Loading tile layers from gwc-layers
+2019-06-05 18:44:26,510 INFO [storage.BlobStoreAggregator] - BlobStoreConfiguration gwc contained no blob store infos.
+2019-06-05 18:44:26,518 INFO [storage.DefaultStorageFinder] - ****************************************************************************************************************************************************
+2019-06-05 18:44:26,518 INFO [storage.DefaultStorageFinder] - *** Found Java environment variable GEOSERVER_DATA_DIR set to /Users/stefan/Downloads/geoserver-2.15.1/data_dir, using it as the default prefix. ***
+2019-06-05 18:44:26,518 INFO [storage.DefaultStorageFinder] - ****************************************************************************************************************************************************
+2019-06-05 18:44:26,580 INFO [gwc.config] - Initializing GeoServer specific GWC configuration from gwc-gs.xml
+2019-06-05 18:44:27,563 INFO [config.GeoserverXMLResourceProvider] - Will look for 'geowebcache-diskquota.xml' in directory '/Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc'.
+2019-06-05 18:44:27,571 INFO [config.GeoserverXMLResourceProvider] - Will look for 'geowebcache-diskquota-jdbc.xml' in directory '/Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc'.
+2019-06-05 18:44:27,574 INFO [diskquota.ConfigLoader] - DiskQuota configuration is not readable: gwc/geowebcache-diskquota.xml
+2019-06-05 18:44:27,586 INFO [diskquota.ConfigLoader] - DiskQuota configuration is not readable: gwc/geowebcache-diskquota.xml
+2019-06-05 18:44:27,588 INFO [diskquota.DiskQuotaMonitor] - Setting up disk quota periodic enforcement task
+2019-06-05 18:44:27,588 INFO [diskquota.DiskQuotaMonitor] - 0 layers configured with their own quotas. 
+2019-06-05 18:44:27,604 INFO [diskquota.DiskQuotaMonitor] - 22 layers attached to global quota 500.0 MB
+2019-06-05 18:44:27,647 INFO [diskquota.DiskQuotaMonitor] - Disk quota periodic enforcement task set up every 10 SECONDS
+2019-06-05 18:44:27,828 INFO [geowebcache.GeoWebCacheDispatcher] - Invoked setServletPrefix(gwc)
+2019-06-05 18:44:27,840 INFO [georss.GeoRSSPoller] - Initializing GeoRSS poller in a background job...
+2019-06-05 18:44:27,841 INFO [georss.GeoRSSPoller] - No enabled GeoRSS feeds found, poller will not run.
+2019-06-05 18:44:27,942 INFO [wms.WMSService] - Will NOT recombine tiles for non-tiling clients.
+2019-06-05 18:44:27,942 INFO [wms.WMSService] - Will proxy requests to backend that are not getmap or getcapabilities.
+2019-06-05 18:44:29,570 WARN [gce.imagemosaic] - Unable to set ordering between tiff readers spi
+2019-06-05 18:44:34,540 INFO [geoserver.security] - AuthenticationCache Initialized with 1000 Max Entries, 300 seconds idle time, 600 seconds time to live and 3 concurrency level
+2019-06-05 18:44:34,540 INFO [geoserver.security] - AuthenticationCache Eviction Task created to run every 600 seconds
+2019-06-05 18:44:34,897 INFO [geoserver.security] - Start reloading user/groups for service named default
+2019-06-05 18:44:34,905 INFO [geoserver.security] - Reloading user/groups successful for service named default
+2019-06-05 18:44:43,038 INFO [geoserver.security] - Strong cryptography is available
+2019-06-05 18:44:55,480 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/nurc_Arc_Sample does not exist or is not writable
+2019-06-05 18:44:55,508 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/nurc_Pk50095 does not exist or is not writable
+2019-06-05 18:44:55,518 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/nurc_mosaic does not exist or is not writable
+2019-06-05 18:44:55,539 INFO [gwc.layer] - Truncating TileLayer for layer group 'tiger-ny' due to a change in its layers or styles
+2019-06-05 18:44:55,610 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tiger-ny does not exist or is not writable
+2019-06-05 18:44:55,611 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tiger-ny does not exist or is not writable
+2019-06-05 18:44:55,613 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tiger_giant_polygon does not exist or is not writable
+2019-06-05 18:44:55,624 INFO [gwc.layer] - Truncating TileLayer for layer group 'tiger-ny' due to a change in its layers or styles
+2019-06-05 18:44:55,624 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tiger-ny does not exist or is not writable
+2019-06-05 18:44:55,624 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tiger-ny does not exist or is not writable
+2019-06-05 18:44:55,626 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tiger_poi does not exist or is not writable
+2019-06-05 18:44:55,633 INFO [gwc.layer] - Truncating TileLayer for layer group 'tiger-ny' due to a change in its layers or styles
+2019-06-05 18:44:55,633 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tiger-ny does not exist or is not writable
+2019-06-05 18:44:55,633 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tiger-ny does not exist or is not writable
+2019-06-05 18:44:55,636 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tiger_poly_landmarks does not exist or is not writable
+2019-06-05 18:44:55,643 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tiger-ny does not exist or is not writable
+2019-06-05 18:44:55,646 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tiger_tiger_roads does not exist or is not writable
+2019-06-05 18:44:55,656 INFO [gwc.layer] - Truncating TileLayer for layer group 'spearfish' due to a change in its layers or styles
+2019-06-05 18:44:55,775 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/spearfish does not exist or is not writable
+2019-06-05 18:44:55,776 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/spearfish does not exist or is not writable
+2019-06-05 18:44:55,778 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/sf_archsites does not exist or is not writable
+2019-06-05 18:44:55,786 INFO [gwc.layer] - Truncating TileLayer for layer group 'spearfish' due to a change in its layers or styles
+2019-06-05 18:44:55,786 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/spearfish does not exist or is not writable
+2019-06-05 18:44:55,787 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/spearfish does not exist or is not writable
+2019-06-05 18:44:55,790 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/sf_bugsites does not exist or is not writable
+2019-06-05 18:44:55,798 INFO [gwc.layer] - Truncating TileLayer for layer group 'spearfish' due to a change in its layers or styles
+2019-06-05 18:44:55,798 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/spearfish does not exist or is not writable
+2019-06-05 18:44:55,798 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/spearfish does not exist or is not writable
+2019-06-05 18:44:55,800 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/sf_restricted does not exist or is not writable
+2019-06-05 18:44:55,808 INFO [gwc.layer] - Truncating TileLayer for layer group 'spearfish' due to a change in its layers or styles
+2019-06-05 18:44:55,808 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/spearfish does not exist or is not writable
+2019-06-05 18:44:55,808 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/spearfish does not exist or is not writable
+2019-06-05 18:44:55,810 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/sf_roads does not exist or is not writable
+2019-06-05 18:44:55,818 INFO [gwc.layer] - Truncating TileLayer for layer group 'spearfish' due to a change in its layers or styles
+2019-06-05 18:44:55,819 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/spearfish does not exist or is not writable
+2019-06-05 18:44:55,819 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/spearfish does not exist or is not writable
+2019-06-05 18:44:55,821 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/sf_streams does not exist or is not writable
+2019-06-05 18:44:55,829 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/spearfish does not exist or is not writable
+2019-06-05 18:44:55,831 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/sf_sfdem does not exist or is not writable
+2019-06-05 18:44:55,839 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/topp_states does not exist or is not writable
+2019-06-05 18:44:55,851 INFO [gwc.layer] - Truncating TileLayer for layer group 'tasmania' due to a change in its layers or styles
+2019-06-05 18:44:55,852 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tasmania does not exist or is not writable
+2019-06-05 18:44:55,852 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tasmania does not exist or is not writable
+2019-06-05 18:44:55,854 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/topp_tasmania_cities does not exist or is not writable
+2019-06-05 18:44:55,861 INFO [gwc.layer] - Truncating TileLayer for layer group 'tasmania' due to a change in its layers or styles
+2019-06-05 18:44:55,861 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tasmania does not exist or is not writable
+2019-06-05 18:44:55,861 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tasmania does not exist or is not writable
+2019-06-05 18:44:55,864 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/topp_tasmania_roads does not exist or is not writable
+2019-06-05 18:44:55,870 INFO [gwc.layer] - Truncating TileLayer for layer group 'tasmania' due to a change in its layers or styles
+2019-06-05 18:44:55,871 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tasmania does not exist or is not writable
+2019-06-05 18:44:55,871 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tasmania does not exist or is not writable
+2019-06-05 18:44:55,873 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/topp_tasmania_state_boundaries does not exist or is not writable
+2019-06-05 18:44:55,879 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/tasmania does not exist or is not writable
+2019-06-05 18:44:55,882 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/topp_tasmania_water_bodies does not exist or is not writable
+2019-06-05 18:44:55,890 INFO [file.FileBlobStore] - /Users/stefan/Downloads/geoserver-2.15.1/data_dir/gwc/nurc_Img_Sample does not exist or is not writable
+2019-06-05 18:45:41,980 INFO [georss.GeoRSSPoller] - destroy() invoked
+2019-06-05 18:45:41,981 INFO [geowebcache.GeoWebCacheDispatcher] - GeoWebCacheDispatcher.destroy() was invoked, shutting down.
+2019-06-05 18:45:41,982 INFO [diskquota.DiskQuotaMonitor] - Disk quota monitor shutting down...
+2019-06-05 18:45:41,982 INFO [diskquota.DiskQuotaMonitor] - Shutting down quota usage monitor...
+2019-06-05 18:45:41,982 INFO [diskquota.QuotaUpdatesMonitor] - Shutting down quota usage monitor...
+2019-06-05 18:45:41,986 INFO [diskquota.DiskQuotaMonitor] - Shutting down quota statistics gathering monitor...
+2019-06-05 18:45:41,986 INFO [diskquota.QueuedQuotaUpdatesConsumer] - Shutting down quota update background task due to InterruptedException
+2019-06-05 18:45:41,986 INFO [diskquota.QueuedUsageStatsConsumer] - Shutting down quota update background task due to interrupted exception
+2019-06-05 18:45:41,987 INFO [seed.SeederThreadPoolExecutor] - Initiating shut down for running and pending seed tasks...
+2019-06-05 18:45:41,987 INFO [seed.SeederThreadPoolExecutor] - Seeder thread pool executor shut down complete.
+2019-06-05 18:45:41,987 INFO [storage.DefaultStorageBroker] - Destroying StorageBroker

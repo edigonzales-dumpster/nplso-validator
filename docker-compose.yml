@@ -1,0 +1,45 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: nplso-db
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+    container_name: nplso-db
+    volumes:
+      - /tmp:/pgdata
+    environment:
+      PG_DATABASE: nplso
+      PG_LOCALE: de_CH.UTF-8
+      PG_PRIMARY_PORT: 5432
+      PG_MODE: primary
+      PG_USER: admin
+      PG_PASSWORD: admin
+      PG_PRIMARY_USER: repl
+      PG_PRIMARY_PASSWORD: repl
+      PG_ROOT_PASSWORD: secret
+      PG_WRITE_USER: gretl
+      PG_WRITE_PASSWORD: gretl
+      PG_READ_USER: ogc_server
+      PG_READ_PASSWORD: ogc_server
+    ports:
+      - "54321:5432"
+    volumes:
+      - /tmp:/pgdata
+    restart: always
+  geoserver:
+    depends_on:
+      - postgres
+    image: nplso-geoserver
+    build:
+      context: ./geoserver
+      dockerfile: Dockerfile
+    container_name: nplso-geoserver
+    command: sh -c 'wait-for postgres:5432 -- start.sh'
+    #command: start.sh
+    ports:
+      - "8080:8080"
+    volumes:
+      - /tmp:/var/local/geoserver
+    restart: always
