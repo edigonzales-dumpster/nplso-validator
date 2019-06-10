@@ -5,8 +5,8 @@ docker-compose build
 docker-compose up
 ```
 
-
+## TODO
+- Wie entwickeln? Falls DB und GS mit Docker Compose gestartet werden, ist die DB für GS nur unter "postgres" sichtbar. Für die zu entwickelnde Web-Applikation aber unter "localhost". Import der Daten versus XML für GS Rest Api.
 
 ## Ideen
 - Description Feld von GeoServer Store für Infos über die zu prüfende Gemeinde.
-- XML schreiben: Map verwenden und diese durchlaufen für die key/entry-Geschichte.
