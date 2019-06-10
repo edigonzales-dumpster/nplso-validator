@@ -32,6 +32,7 @@ dependencies {
     implementation 'ch.interlis:ili2pg:4.1.0'
     implementation 'ch.ehi:ehibasics:1.2.0'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.8'
 
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
