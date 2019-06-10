@@ -26,6 +26,7 @@ grant all privileges on database PG_DATABASE to PG_USER;
 \c PG_DATABASE
 
 create extension postgis;
+create extension "uuid-ossp";
 --create extension postgis_topology;
 create extension fuzzystrmatch;
 --create extension postgis_tiger_geocoder;

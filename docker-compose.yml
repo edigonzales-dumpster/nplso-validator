@@ -7,8 +7,6 @@ services:
       context: ./postgres
       dockerfile: Dockerfile
     container_name: nplso-db
-    volumes:
-      - /tmp:/pgdata
     environment:
       PG_DATABASE: nplso
       PG_LOCALE: de_CH.UTF-8
