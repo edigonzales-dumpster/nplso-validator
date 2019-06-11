@@ -9,6 +9,7 @@ Variante 2 "Webanwendung läuft direkt in Docker": Die Webanwendung kann auf wä
 
 **TODO:** Aufräumen in Variante 2. Diese weiterverfolgen.
 - Dockerfile für dev und prod
+- container-name etc. in dockerfile
 - Ordnerhierarchie (eine Ebene zu viel?)
 - settings.gradle für Projektnamen
 - ...
