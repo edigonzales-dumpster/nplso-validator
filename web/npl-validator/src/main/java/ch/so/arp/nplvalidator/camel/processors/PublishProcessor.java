@@ -41,24 +41,30 @@ import org.w3c.dom.Element;
 public class PublishProcessor implements Processor {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${app.dbHostNplso}")
-    private String dbHostNplso;
+    @Value("${app.dbHost4Geoserver")
+    private String dbHost;
 
-    @Value("${app.dbPortNplso}")
-    private String dbPortNplso;
+    @Value("${app.dbPort}")
+    private String dbPort;
 
-    @Value("${app.dbDatabaseNplso}")
-    private String dbDatabaseNplso;
+    @Value("${app.dbDatabase}")
+    private String dbDatabase;
 
-    @Value("${app.dbUserNplso}")
-    private String dbUserNplso;
+    @Value("${app.dbUser}")
+    private String dbUser;
 
-    @Value("${app.dbPwdNplso}")
-    private String dbPwdNplso;
+    @Value("${app.dbPwd}")
+    private String dbPwd;
 
     @Value("${app.models}")
     private String models;
     
+    @Value("${app.gsHost}")
+    private String gsHost;
+    
+    @Value("${app.gsPort}")
+    private String gsPort;
+
     @Value("${app.gsWorkspace}")
     private String gsWorkspace;
 
@@ -143,12 +149,12 @@ public class PublishProcessor implements Processor {
 
         Element user = doc.createElement("entry");
         user.setAttribute("key", "user");
-        user.appendChild(doc.createTextNode(dbUserNplso));
+        user.appendChild(doc.createTextNode(dbUser));
         connectionParameters.appendChild(user);
 
         Element passwd = doc.createElement("entry");
         passwd.setAttribute("key", "passwd");
-        passwd.appendChild(doc.createTextNode(dbPwdNplso));
+        passwd.appendChild(doc.createTextNode(dbPwd));
         connectionParameters.appendChild(passwd);
         
         Element dbtype = doc.createElement("entry");
@@ -163,7 +169,7 @@ public class PublishProcessor implements Processor {
 
         Element database = doc.createElement("entry");
         database.setAttribute("key", "database");                
-        database.appendChild(doc.createTextNode(dbDatabaseNplso));
+        database.appendChild(doc.createTextNode(dbDatabase));
         connectionParameters.appendChild(database);
 
         Element schema = doc.createElement("entry");

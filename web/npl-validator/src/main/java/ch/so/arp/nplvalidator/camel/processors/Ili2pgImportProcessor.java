@@ -17,20 +17,20 @@ import ch.ehi.ili2pg.PgMain;
 public class Ili2pgImportProcessor implements Processor {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${app.dbHostNplso}")
-    private String dbHostNplso;
+    @Value("${app.dbHost4Webapp}")
+    private String dbHost;
     
-    @Value("${app.dbPortNplso}")
-    private String dbPortNplso;
+    @Value("${app.dbPort}")
+    private String dbPort;
 
-    @Value("${app.dbDatabaseNplso}")
-    private String dbDatabaseNplso;
+    @Value("${app.dbDatabase}")
+    private String dbDatabase;
 
-    @Value("${app.dbUserNplso}")
-    private String dbUserNplso;
+    @Value("${app.dbUser}")
+    private String dbUser;
 
-    @Value("${app.dbPwdNplso}")
-    private String dbPwdNplso;
+    @Value("${app.dbPwd}")
+    private String dbPwd;
     
     @Value("${app.models}")
     private String models;
@@ -44,12 +44,12 @@ public class Ili2pgImportProcessor implements Processor {
         settings.setFunction(Config.FC_IMPORT);
         settings.setDoImplicitSchemaImport(true);
         
-        settings.setDbhost(dbHostNplso);
-        settings.setDbport(dbPortNplso);
-        settings.setDbdatabase(dbDatabaseNplso);
+        settings.setDbhost(dbHost);
+        settings.setDbport(dbPort);
+        settings.setDbdatabase(dbDatabase);
         settings.setDbschema(dbSchema); 
-        settings.setDbusr(dbUserNplso);
-        settings.setDbpwd(dbPwdNplso);
+        settings.setDbusr(dbUser);
+        settings.setDbpwd(dbPwd);
 
         String dburl = "jdbc:postgresql://" + settings.getDbhost() + ":" + settings.getDbport() + "/"
                 + settings.getDbdatabase();

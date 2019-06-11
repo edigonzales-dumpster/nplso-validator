@@ -41,3 +41,12 @@ services:
     volumes:
       - /tmp:/var/local/geoserver
     restart: always
+  app:
+    build: ./web/npl-validator
+    ports:
+      - '8081:8081'
+    volumes:
+      - ./web/npl-validator:/app
+    working_dir: /app
+    user: appuser
+    command: ./gradlew --project-cache-dir /tmp/gradle-cache bootRun

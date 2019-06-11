@@ -68,8 +68,9 @@ ENV CATALINA_OPTS "-server -Djava.awt.headless=true \
 	-Xms2048m -Xmx2048m -XX:+UseConcMarkSweepGC -XX:NewSize=48m \
 	-DGEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}"
 
+EXPOSE 8080
+
 ADD wait-for /usr/local/bin/wait-for
 ADD start.sh /usr/local/bin/start.sh
 CMD start.sh
 
-EXPOSE 8080

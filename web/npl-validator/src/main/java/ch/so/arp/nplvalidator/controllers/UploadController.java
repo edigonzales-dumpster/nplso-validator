@@ -62,7 +62,6 @@ public class UploadController {
             }
 
             // Save the file in a temporary directory.
-
             Path tmpDirectory = Files.createTempDirectory(FOLDER_PREFIX);
             Path uploadFilePath = Paths.get(tmpDirectory.toString(), fileName);
     
