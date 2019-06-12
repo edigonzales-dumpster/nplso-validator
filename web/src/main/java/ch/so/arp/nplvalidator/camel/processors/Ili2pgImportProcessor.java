@@ -17,7 +17,7 @@ import ch.ehi.ili2pg.PgMain;
 public class Ili2pgImportProcessor implements Processor {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${app.dbHost4Webapp}")
+    @Value("${app.dbHost}")
     private String dbHost;
     
     @Value("${app.dbPort}")
