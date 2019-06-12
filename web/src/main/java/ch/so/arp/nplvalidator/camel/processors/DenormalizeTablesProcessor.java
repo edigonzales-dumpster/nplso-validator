@@ -2,6 +2,7 @@ package ch.so.arp.nplvalidator.camel.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slf4j.Logger;
