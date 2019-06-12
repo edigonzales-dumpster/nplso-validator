@@ -51,7 +51,7 @@ public class DenormalizeTablesProcessor implements Processor {
         String sql = null;
         InputStream is = sqlResource.getInputStream();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-            sql = reader.lines().collect(Collectors.joining("\n"));
+            sql = reader.lines().collect(Collectors.joining((System.lineSeparator())));
         }
             
         log.info(sql);
