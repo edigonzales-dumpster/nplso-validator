@@ -29,13 +29,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -87,14 +85,12 @@ public class PublishProcessor implements Processor {
         
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(
-                // TODO: parameterize it
                 new AuthScope(gsHost, Integer.valueOf(gsPort)),
                 new UsernamePasswordCredentials(gsUser, gsPwd));
 
         CloseableHttpClient httpclient = HttpClients.custom()
                 .setDefaultCredentialsProvider(credentialsProvider)
                 .build();
-        // TODO: parameterize it
         HttpPost httpPost = new HttpPost("http://"+gsHost+":"+gsPort+"/geoserver/rest/workspaces/"+gsWorkspace+"/datastores");
         httpPost.setHeader("Content-Type", "application/xml");
         StringEntity stringEntity = new StringEntity(dataStoreFileContent);

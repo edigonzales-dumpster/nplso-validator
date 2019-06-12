@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import ch.so.arp.nplvalidator.camel.processors.DenormalizeTablesProcessor;
 import ch.so.arp.nplvalidator.camel.processors.Ili2pgImportProcessor;
 import ch.so.arp.nplvalidator.camel.processors.PublishProcessor;
 
@@ -20,12 +21,15 @@ public class CamelRoute extends RouteBuilder {
     @Autowired
     PublishProcessor publishProcessor;
 
+    @Autowired
+    DenormalizeTablesProcessor denormalizeTablesProcessor;
+
     @Override
     public void configure() throws Exception {
         from("direct:nplValidator")
         //.process(ili2pgImportProcessor)
-        // TODO: create denormalized tables etc. processor 
-        .process(publishProcessor)
+        //.process(publishProcessor)
+        .process(denormalizeTablesProcessor)
         .log(LoggingLevel.INFO, "Hallo Welt.")
         .to("file:///tmp/");
 
