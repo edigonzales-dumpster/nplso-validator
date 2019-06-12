@@ -31,7 +31,7 @@ public class CamelRoute extends RouteBuilder {
         //.process(publishProcessor)
         .process(denormalizeTablesProcessor)
         .log(LoggingLevel.INFO, "Hallo Welt.")
-        .to("file:///tmp/");
+        .to("file:///tmp/"); 
 
     }
 

@@ -1,5 +1,5 @@
     
-FROM adoptopenjdk/openjdk11:latest
+FROM openjdk:8u171-jdk-alpine3.8
 
 RUN set -x && \
     addgroup -g 1000 appuser && \
