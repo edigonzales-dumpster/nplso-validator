@@ -29,6 +29,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -58,10 +59,10 @@ public class PublishProcessor implements Processor {
 
     @Value("${app.models}")
     private String models;
-    
+
     @Value("${app.gsHost}")
     private String gsHost;
-    
+
     @Value("${app.gsPort}")
     private String gsPort;
 
@@ -78,43 +79,84 @@ public class PublishProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         File dataFile = exchange.getIn().getBody(File.class);
         String dbSchema = (String) exchange.getIn().getHeaders().get("DBSCHEMA");
-        String dataStoreFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "datastore.xml").toFile().getAbsolutePath();
+        String dataStoreFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "datastore.xml").toFile()
+                .getAbsolutePath();
 
         File dataStoreFile = this.writeDataStoreXml(dataStoreFileName, dbSchema);
         String dataStoreFileContent = new String(Files.readAllBytes(Paths.get(dataStoreFile.getAbsolutePath())));
-        
+
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(
-                new AuthScope(gsHost, Integer.valueOf(gsPort)),
-                new UsernamePasswordCredentials(gsUser, gsPwd));
+        new AuthScope(gsHost, Integer.valueOf(gsPort)),
+        new UsernamePasswordCredentials(gsUser, gsPwd));
 
         CloseableHttpClient httpclient = HttpClients.custom()
-                .setDefaultCredentialsProvider(credentialsProvider)
-                .build();
-        HttpPost httpPost = new HttpPost("http://"+gsHost+":"+gsPort+"/geoserver/rest/workspaces/"+gsWorkspace+"/datastores");
+        .setDefaultCredentialsProvider(credentialsProvider)
+        .build();
+        HttpPost httpPost = new
+        HttpPost("http://"+gsHost+":"+gsPort+"/geoserver/rest/workspaces/"+gsWorkspace+"/datastores");
         httpPost.setHeader("Content-Type", "application/xml");
         StringEntity stringEntity = new StringEntity(dataStoreFileContent);
         httpPost.setEntity(stringEntity);
-        
+
         ResponseHandler<String> responseHandler = response -> {
-            int status = response.getStatusLine().getStatusCode();
-            if (status >= 200 && status < 300) {
-                HttpEntity entity = response.getEntity();
-                return entity != null ? EntityUtils.toString(entity) : null;
-            } else {
-                // TODO: more error message information
-                throw new ClientProtocolException("Unexpected response status: " + status);
-            }
+        int status = response.getStatusLine().getStatusCode();
+        if (status >= 200 && status < 300) {
+        HttpEntity entity = response.getEntity();
+        return entity != null ? EntityUtils.toString(entity) : null;
+        } else {
+        // TODO: more error message information
+        throw new ClientProtocolException("Unexpected response status: " + status);
+        }
         };
 
         String responseBody = httpclient.execute(httpPost, responseHandler);
         log.info("Datastore created: " + responseBody);
 
-        
-        // TODO: publish layer and assign style 
+        String featureTypeFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "featuretype.xml").toFile()
+                .getAbsolutePath();
+        File featureTypeFile = this.writeFeatureTypeXml(featureTypeFileName, "grundnutzung", "fubar");
+
+        // TODO: publish layer and assign style
 
     }
+
+    private File writeFeatureTypeXml(String xmlFileName, String layerName, String nativeName)
+            throws ParserConfigurationException, TransformerException {
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
     
+            Document doc = docBuilder.newDocument();
+            Element rootElement = doc.createElement("featureType");
+            doc.appendChild(rootElement);
+    
+            Element name = doc.createElement("name");
+            name.appendChild(doc.createTextNode(layerName)); 
+            rootElement.appendChild(name);
+
+            Element nativeNameEl = doc.createElement("nativeName");
+            nativeNameEl.appendChild(doc.createTextNode(nativeName)); 
+            rootElement.appendChild(nativeNameEl);
+
+            Element title = doc.createElement("title");
+            title.appendChild(doc.createTextNode(layerName)); 
+            rootElement.appendChild(title);
+
+            Element enabled = doc.createElement("enabled");
+            enabled.appendChild(doc.createTextNode("true")); 
+            rootElement.appendChild(enabled);
+    
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+    
+            StreamResult result = new StreamResult(new File(xmlFileName));    
+            transformer.transform(source, result);
+            
+            return new File(xmlFileName);
+        }
+
+
     private File writeDataStoreXml(String xmlFileName, String dbSchema) throws ParserConfigurationException, TransformerException {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -137,8 +179,6 @@ public class PublishProcessor implements Processor {
 
         Element connectionParameters = doc.createElement("connectionParameters");
 
-        // TODO: loop over map
-
         Map<String, String> elements = new HashMap<String, String> ();
         elements.put("port", "5432");
         elements.put("user", dbUser);
@@ -146,7 +186,7 @@ public class PublishProcessor implements Processor {
         elements.put("dbtype", "postgis");
         elements.put("host", dbHost);
         elements.put("database", dbDatabase);
-        elements.put("schema", "npl_test1"); //dbSchema
+        elements.put("schema", dbSchema); //dbSchema
         elements.put("Evictor run periodicity", "300");
         elements.put("Max open prepared statements", "50");
         elements.put("Batch insert size", "1");

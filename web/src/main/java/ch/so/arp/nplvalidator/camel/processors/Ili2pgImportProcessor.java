@@ -56,6 +56,7 @@ public class Ili2pgImportProcessor implements Processor {
         settings.setDburl(dburl);
 
         settings.setNameOptimization(settings.NAME_OPTIMIZATION_TOPIC);
+        settings.setStrokeArcs(settings, settings.STROKE_ARCS_ENABLE);
         settings.setValidation(false);
         settings.setModels(models);
         settings.setItfTransferfile(false);

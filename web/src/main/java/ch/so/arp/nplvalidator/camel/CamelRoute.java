@@ -27,9 +27,9 @@ public class CamelRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("direct:nplValidator")
-        //.process(ili2pgImportProcessor)
-        //.process(publishProcessor)
-        .process(denormalizeTablesProcessor)
+        .process(ili2pgImportProcessor)
+        .process(publishProcessor)
+        //.process(denormalizeTablesProcessor)
         .log(LoggingLevel.INFO, "Hallo Welt.")
         .to("file:///tmp/"); 
 
