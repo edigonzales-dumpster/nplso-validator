@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -29,7 +30,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -79,83 +79,114 @@ public class PublishProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         File dataFile = exchange.getIn().getBody(File.class);
         String dbSchema = (String) exchange.getIn().getHeaders().get("DBSCHEMA");
-        String dataStoreFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "datastore.xml").toFile()
-                .getAbsolutePath();
 
+        // Create namespace.
+        String namespaceFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "namespace.xml").toFile().getAbsolutePath();
+        File namespaceFile = this.writeNamespaceXml(namespaceFileName, dbSchema);
+        String namespaceFileContent = new String(Files.readAllBytes(Paths.get(namespaceFile.getAbsolutePath())));
+        this.createGeoserverResource(namespaceFileContent, "http://"+gsHost+":"+gsPort+"/geoserver/rest/namespaces");
+
+        // Create datastore.
+        String dataStoreFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "datastore.xml").toFile().getAbsolutePath();
         File dataStoreFile = this.writeDataStoreXml(dataStoreFileName, dbSchema);
         String dataStoreFileContent = new String(Files.readAllBytes(Paths.get(dataStoreFile.getAbsolutePath())));
+        //HttpPost httpPost = new HttpPost("http://"+gsHost+":"+gsPort+"/geoserver/rest/workspaces/"+gsWorkspace+"/datastores");
 
-        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(
-        new AuthScope(gsHost, Integer.valueOf(gsPort)),
-        new UsernamePasswordCredentials(gsUser, gsPwd));
+        // Create featuretypes.
+        String featureTypeFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "featuretype.xml").toFile().getAbsolutePath();
+        File featureTypeFile = this.writeFeatureTypeXml(featureTypeFileName, "npl_grundnutzung", "fubar");
 
-        CloseableHttpClient httpclient = HttpClients.custom()
-        .setDefaultCredentialsProvider(credentialsProvider)
-        .build();
-        HttpPost httpPost = new
-        HttpPost("http://"+gsHost+":"+gsPort+"/geoserver/rest/workspaces/"+gsWorkspace+"/datastores");
-        httpPost.setHeader("Content-Type", "application/xml");
-        StringEntity stringEntity = new StringEntity(dataStoreFileContent);
-        httpPost.setEntity(stringEntity);
-
-        ResponseHandler<String> responseHandler = response -> {
-        int status = response.getStatusLine().getStatusCode();
-        if (status >= 200 && status < 300) {
-        HttpEntity entity = response.getEntity();
-        return entity != null ? EntityUtils.toString(entity) : null;
-        } else {
-        // TODO: more error message information
-        throw new ClientProtocolException("Unexpected response status: " + status);
-        }
-        };
-
-        String responseBody = httpclient.execute(httpPost, responseHandler);
-        log.info("Datastore created: " + responseBody);
-
-        String featureTypeFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "featuretype.xml").toFile()
-                .getAbsolutePath();
-        File featureTypeFile = this.writeFeatureTypeXml(featureTypeFileName, "grundnutzung", "fubar");
-
-        // TODO: publish layer and assign style
+        // Assign style to featuretype.
 
     }
 
-    private File writeFeatureTypeXml(String xmlFileName, String layerName, String nativeName)
-            throws ParserConfigurationException, TransformerException {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-    
-            Document doc = docBuilder.newDocument();
-            Element rootElement = doc.createElement("featureType");
-            doc.appendChild(rootElement);
-    
-            Element name = doc.createElement("name");
-            name.appendChild(doc.createTextNode(layerName)); 
-            rootElement.appendChild(name);
+    private void createGeoserverResource(String requestEntity, String restEndpoint) throws ClientProtocolException, IOException {
+        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(
+            new AuthScope(gsHost, Integer.valueOf(gsPort)),
+            new UsernamePasswordCredentials(gsUser, gsPwd));
 
-            Element nativeNameEl = doc.createElement("nativeName");
-            nativeNameEl.appendChild(doc.createTextNode(nativeName)); 
-            rootElement.appendChild(nativeNameEl);
+        CloseableHttpClient httpclient = HttpClients.custom()
+            .setDefaultCredentialsProvider(credentialsProvider)
+            .build();
+        HttpPost httpPost = new HttpPost(restEndpoint);
+        httpPost.setHeader("Content-Type", "application/xml");
+        httpPost.setEntity(new StringEntity(requestEntity));
 
-            Element title = doc.createElement("title");
-            title.appendChild(doc.createTextNode(layerName)); 
-            rootElement.appendChild(title);
+        ResponseHandler<String> responseHandler = response -> {
+            int status = response.getStatusLine().getStatusCode();
+            if (status >= 200 && status < 300) {
+                HttpEntity entity = response.getEntity();
+                return entity != null ? EntityUtils.toString(entity) : null;
+            } else {
+                throw new ClientProtocolException("Unexpected response status: " + status);
+            }
+        };
 
-            Element enabled = doc.createElement("enabled");
-            enabled.appendChild(doc.createTextNode("true")); 
-            rootElement.appendChild(enabled);
+        String responseBody = httpclient.execute(httpPost, responseHandler);
+        log.info("Resource created: " + responseBody);
+
+    }
+
+    private File writeNamespaceXml(String xmlFileName, String dbSchema) throws TransformerException, ParserConfigurationException {
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
     
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-    
-            StreamResult result = new StreamResult(new File(xmlFileName));    
-            transformer.transform(source, result);
-            
-            return new File(xmlFileName);
-        }
+        Document doc = docBuilder.newDocument();
+        Element rootElement = doc.createElement("namespace");
+        doc.appendChild(rootElement);
 
+        Element prefix = doc.createElement("prefix");
+        prefix.appendChild(doc.createTextNode(dbSchema)); 
+        rootElement.appendChild(prefix);
+
+        Element uri = doc.createElement("uri");
+        uri.appendChild(doc.createTextNode("http://arp.so.ch/"+dbSchema)); 
+        rootElement.appendChild(uri);
+
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+
+        StreamResult result = new StreamResult(new File(xmlFileName));    
+        transformer.transform(source, result);
+        
+        return new File(xmlFileName);
+    }
+
+    private File writeFeatureTypeXml(String xmlFileName, String layerName, String nativeName) throws ParserConfigurationException, TransformerException {
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+        Document doc = docBuilder.newDocument();
+        Element rootElement = doc.createElement("featureType");
+        doc.appendChild(rootElement);
+
+        Element name = doc.createElement("name");
+        name.appendChild(doc.createTextNode(layerName)); 
+        rootElement.appendChild(name);
+
+        Element nativeNameEl = doc.createElement("nativeName");
+        nativeNameEl.appendChild(doc.createTextNode(nativeName)); 
+        rootElement.appendChild(nativeNameEl);
+
+        Element title = doc.createElement("title");
+        title.appendChild(doc.createTextNode(layerName)); 
+        rootElement.appendChild(title);
+
+        Element enabled = doc.createElement("enabled");
+        enabled.appendChild(doc.createTextNode("true")); 
+        rootElement.appendChild(enabled);
+
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+
+        StreamResult result = new StreamResult(new File(xmlFileName));    
+        transformer.transform(source, result);
+        
+        return new File(xmlFileName);
+    }
 
     private File writeDataStoreXml(String xmlFileName, String dbSchema) throws ParserConfigurationException, TransformerException {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -227,5 +258,4 @@ public class PublishProcessor implements Processor {
         
         return new File(xmlFileName);
     }
-
 }
