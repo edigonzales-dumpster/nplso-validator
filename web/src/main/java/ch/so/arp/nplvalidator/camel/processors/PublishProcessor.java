@@ -30,7 +30,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -99,18 +98,23 @@ public class PublishProcessor implements Processor {
                 .getAbsolutePath();
         File dataStoreFile = this.writeDataStoreXml(dataStoreFileName, dbSchema);
         String dataStoreFileContent = new String(Files.readAllBytes(Paths.get(dataStoreFile.getAbsolutePath())));
-        // HttpPost httpPost = new
-        // HttpPost("http://"+gsHost+":"+gsPort+"/geoserver/rest/workspaces/"+gsWorkspace+"/datastores");
+        this.createGeoserverResource(dataStoreFileContent, "http://" + gsHost + ":" + gsPort + "/geoserver/rest/workspaces/"+dbSchema+"/datastores");
 
         // Create featuretypes.
         String featureTypeFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "featuretype.xml").toFile()
                 .getAbsolutePath();
         File featureTypeFile = this.writeFeatureTypeXml(featureTypeFileName, "npl_grundnutzung", "fubar");
+        String featureTypeFileContent = new String(Files.readAllBytes(Paths.get(featureTypeFile.getAbsolutePath())));
+        this.createGeoserverResource(featureTypeFileContent, "http://" + gsHost + ":" + gsPort + "/geoserver/rest/workspaces/"+dbSchema+"/featuretypes");
 
         // Assign style to featuretype.
         String styleFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "style.xml").toFile()
                 .getAbsolutePath();
          File styleFile = this.writeStyleXml(styleFileName, "npl_grundnutzung", "npl_grundnutzung");
+         String styleFileContent = new String(Files.readAllBytes(Paths.get(styleFile.getAbsolutePath())));
+         this.createGeoserverResource(featureTypeFileContent, "http://" + gsHost + ":" + gsPort + "/geoserver/rest/workspaces/"+dbSchema+"/featuretypes");
+        // We need PUT instead of POST.
+        // http://localhost:8080/geoserver/rest/workspaces/<workspace>/layers/<layer>     
     }
 
     private void createGeoserverResource(String requestEntity, String restEndpoint)
@@ -277,10 +281,10 @@ public class PublishProcessor implements Processor {
         elements.put("Test while idle", "3");
         elements.put("Max connection idle time", "300");
 
-        for (Map.Entry el : elements.entrySet()) {
+        for (Map.Entry<String,String> el : elements.entrySet()) {
             Element element = doc.createElement("entry");
-            element.setAttribute("key", (String) el.getKey());                                
-            element.appendChild(doc.createTextNode((String) el.getValue())); 
+            element.setAttribute("key", el.getKey());                                
+            element.appendChild(doc.createTextNode(el.getValue())); 
             connectionParameters.appendChild(element);
         }
 
