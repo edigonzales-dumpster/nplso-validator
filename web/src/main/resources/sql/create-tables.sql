@@ -72,7 +72,7 @@ grouped_json_documents AS
 (
     SELECT 
        typ_grundnutzung_dokument.typ_grundnutzung,
-       json_agg(row_to_json(flattened_documents)) AS dokumente
+       json_agg(json_strip_nulls(row_to_json(flattened_documents))) AS dokumente
     FROM 
         flattened_documents
         LEFT JOIN nutzungsplanung_typ_grundnutzung_dokument AS typ_grundnutzung_dokument

@@ -30,6 +30,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -37,6 +38,11 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+/*
+ * TODO: Create encoder classes for the xml stuff and geoserver communication.
+ * HTTPUtils...
+ */
 
 @Component
 public class PublishProcessor implements Processor {
@@ -81,34 +87,40 @@ public class PublishProcessor implements Processor {
         String dbSchema = (String) exchange.getIn().getHeaders().get("DBSCHEMA");
 
         // Create namespace.
-        String namespaceFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "namespace.xml").toFile().getAbsolutePath();
+        String namespaceFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "namespace.xml").toFile()
+                .getAbsolutePath();
         File namespaceFile = this.writeNamespaceXml(namespaceFileName, dbSchema);
         String namespaceFileContent = new String(Files.readAllBytes(Paths.get(namespaceFile.getAbsolutePath())));
-        this.createGeoserverResource(namespaceFileContent, "http://"+gsHost+":"+gsPort+"/geoserver/rest/namespaces");
+        this.createGeoserverResource(namespaceFileContent,
+                "http://" + gsHost + ":" + gsPort + "/geoserver/rest/namespaces");
 
         // Create datastore.
-        String dataStoreFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "datastore.xml").toFile().getAbsolutePath();
+        String dataStoreFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "datastore.xml").toFile()
+                .getAbsolutePath();
         File dataStoreFile = this.writeDataStoreXml(dataStoreFileName, dbSchema);
         String dataStoreFileContent = new String(Files.readAllBytes(Paths.get(dataStoreFile.getAbsolutePath())));
-        //HttpPost httpPost = new HttpPost("http://"+gsHost+":"+gsPort+"/geoserver/rest/workspaces/"+gsWorkspace+"/datastores");
+        // HttpPost httpPost = new
+        // HttpPost("http://"+gsHost+":"+gsPort+"/geoserver/rest/workspaces/"+gsWorkspace+"/datastores");
 
         // Create featuretypes.
-        String featureTypeFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "featuretype.xml").toFile().getAbsolutePath();
+        String featureTypeFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "featuretype.xml").toFile()
+                .getAbsolutePath();
         File featureTypeFile = this.writeFeatureTypeXml(featureTypeFileName, "npl_grundnutzung", "fubar");
 
         // Assign style to featuretype.
-
+        String styleFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "style.xml").toFile()
+                .getAbsolutePath();
+         File styleFile = this.writeStyleXml(styleFileName, "npl_grundnutzung", "npl_grundnutzung");
     }
 
-    private void createGeoserverResource(String requestEntity, String restEndpoint) throws ClientProtocolException, IOException {
+    private void createGeoserverResource(String requestEntity, String restEndpoint)
+            throws ClientProtocolException, IOException {
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(
-            new AuthScope(gsHost, Integer.valueOf(gsPort)),
-            new UsernamePasswordCredentials(gsUser, gsPwd));
+        credentialsProvider.setCredentials(new AuthScope(gsHost, Integer.valueOf(gsPort)),
+                new UsernamePasswordCredentials(gsUser, gsPwd));
 
-        CloseableHttpClient httpclient = HttpClients.custom()
-            .setDefaultCredentialsProvider(credentialsProvider)
-            .build();
+        CloseableHttpClient httpclient = HttpClients.custom().setDefaultCredentialsProvider(credentialsProvider)
+                .build();
         HttpPost httpPost = new HttpPost(restEndpoint);
         httpPost.setHeader("Content-Type", "application/xml");
         httpPost.setEntity(new StringEntity(requestEntity));
@@ -125,7 +137,36 @@ public class PublishProcessor implements Processor {
 
         String responseBody = httpclient.execute(httpPost, responseHandler);
         log.info("Resource created: " + responseBody);
+    }
 
+    private File writeStyleXml(String xmlFileName, String layerName, String styleName) throws TransformerException, ParserConfigurationException {
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+    
+        Document doc = docBuilder.newDocument();
+        Element rootElement = doc.createElement("layer");
+        doc.appendChild(rootElement);
+
+        Element name = doc.createElement("name");
+        name.appendChild(doc.createTextNode(layerName)); 
+        rootElement.appendChild(name);
+
+        Element defaultStyle = doc.createElement("defaultStyle");
+
+        Element styleNameEl = doc.createElement("name");
+        styleNameEl.appendChild(doc.createTextNode(styleName)); 
+        defaultStyle.appendChild(styleNameEl);
+
+        rootElement.appendChild(defaultStyle);
+
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+
+        StreamResult result = new StreamResult(new File(xmlFileName));    
+        transformer.transform(source, result);
+        
+        return new File(xmlFileName);
     }
 
     private File writeNamespaceXml(String xmlFileName, String dbSchema) throws TransformerException, ParserConfigurationException {
