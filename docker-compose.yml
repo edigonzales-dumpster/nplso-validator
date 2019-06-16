@@ -39,8 +39,8 @@ services:
     #command: start.sh
     ports:
       - "8080:8080"
-    #volumes:
-    #  - /tmp:/var/local/geoserver
+    volumes:
+      - /Users/stefan/tmp:/var/local/geoserver
     restart: always
   app:
     depends_on:

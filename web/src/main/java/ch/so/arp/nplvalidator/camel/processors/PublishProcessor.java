@@ -2,25 +2,12 @@ package ch.so.arp.nplvalidator.camel.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.apache.http.HttpEntity;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -39,11 +26,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ch.so.arp.nplvalidator.geoserver.HTTPUtils;
-
-/*
- * TODO: Create encoder classes for the xml stuff and geoserver communication.
- * HTTPUtils...
- */
 
 @Component
 public class PublishProcessor implements Processor {
@@ -97,6 +79,9 @@ public class PublishProcessor implements Processor {
         String namespaceFileContent = new String(Files.readAllBytes(Paths.get(namespaceFile.getAbsolutePath())));
         String namespaceResponse = HTTPUtils.postXml("http://" + gsHost + ":" + gsPort + "/geoserver/rest/namespaces", namespaceFileContent, gsUser, gsPwd);
         log.info(namespaceResponse);
+        if (namespaceResponse == null) {
+            throw new Exception("Error creating namespace.");
+        } 
 
         // Create datastore.
         String dataStoreFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "datastore.xml").toFile()
@@ -105,53 +90,31 @@ public class PublishProcessor implements Processor {
         String dataStoreFileContent = new String(Files.readAllBytes(Paths.get(dataStoreFile.getAbsolutePath())));
         String dataStoreResponse = HTTPUtils.postXml("http://" + gsHost + ":" + gsPort + "/geoserver/rest/workspaces/"+dbSchema+"/datastores", dataStoreFileContent, gsUser, gsPwd);
         log.info(dataStoreResponse);
+        if (dataStoreResponse == null) {
+            throw new Exception("Error creating datastore.");
+        } 
 
+        // Create featuretypes.
+        String featureTypeFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "featuretype.xml").toFile()
+                .getAbsolutePath();
+        File featureTypeFile = this.writeFeatureTypeXml(featureTypeFileName, tableNameGrundnutzung, tableNameGrundnutzung);
+        String featureTypeFileContent = new String(Files.readAllBytes(Paths.get(featureTypeFile.getAbsolutePath())));
+        String featureTypeResponse = HTTPUtils.postXml("http://" + gsHost + ":" + gsPort + "/geoserver/rest/workspaces/"+dbSchema+"/featuretypes", featureTypeFileContent, gsUser, gsPwd);
+        log.info(featureTypeResponse);
+        if (featureTypeResponse == null) {
+            throw new Exception("Error creating featuretype.");
+        }         
 
-        // // Create featuretypes.
-        // String featureTypeFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "featuretype.xml").toFile()
-        //         .getAbsolutePath();
-        // File featureTypeFile = this.writeFeatureTypeXml(featureTypeFileName, tableNameGrundnutzung, tableNameGrundnutzung);
-        // String featureTypeFileContent = new String(Files.readAllBytes(Paths.get(featureTypeFile.getAbsolutePath())));
-        // String featureTypeResponse = HTTPUtils.postXml("http://" + gsHost + ":" + gsPort + "/geoserver/rest/workspaces/"+dbSchema+"/featuretypes", featureTypeFileContent, gsUser, gsPwd);
-        // log.info(featureTypeResponse);
-
-        // // Assign style to featuretype.
-        // String styleFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "style.xml").toFile()
-        //         .getAbsolutePath();
-        // File styleFile = this.writeStyleXml(styleFileName, tableNameGrundnutzung, tableNameGrundnutzung);
-        // String styleFileContent = new String(Files.readAllBytes(Paths.get(styleFile.getAbsolutePath())));
-        // String styleResponse = HTTPUtils.putXml("http://" + gsHost + ":" + gsPort + "/geoserver/rest/workspaces/"+dbSchema+"/layers/" + NPL_GRUNDNUTZUNG_TABLE_NAME, styleFileContent, gsUser, gsPwd);
-        // log.info(styleResponse);
-
-        //  this.createGeoserverResource(featureTypeFileContent, "http://" + gsHost + ":" + gsPort + "/geoserver/rest/workspaces/"+dbSchema+"/featuretypes");
-        // // We need PUT instead of POST.
-        // // http://localhost:8080/geoserver/rest/workspaces/<workspace>/layers/<layer>     
-    }
-
-    private void createGeoserverResource(String requestEntity, String restEndpoint)
-            throws ClientProtocolException, IOException {
-        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(new AuthScope(gsHost, Integer.valueOf(gsPort)),
-                new UsernamePasswordCredentials(gsUser, gsPwd));
-
-        CloseableHttpClient httpclient = HttpClients.custom().setDefaultCredentialsProvider(credentialsProvider)
-                .build();
-        HttpPost httpPost = new HttpPost(restEndpoint);
-        httpPost.setHeader("Content-Type", "application/xml");
-        httpPost.setEntity(new StringEntity(requestEntity));
-
-        ResponseHandler<String> responseHandler = response -> {
-            int status = response.getStatusLine().getStatusCode();
-            if (status >= 200 && status < 300) {
-                HttpEntity entity = response.getEntity();
-                return entity != null ? EntityUtils.toString(entity) : null;
-            } else {
-                throw new ClientProtocolException("Unexpected response status: " + status);
-            }
-        };
-
-        String responseBody = httpclient.execute(httpPost, responseHandler);
-        log.info("Resource created: " + responseBody);
+        // Assign style to featuretype.
+        String styleFileName = Paths.get(dataFile.getAbsoluteFile().getParent(), "style.xml").toFile()
+                .getAbsolutePath();
+        File styleFile = this.writeStyleXml(styleFileName, tableNameGrundnutzung, tableNameGrundnutzung);
+        String styleFileContent = new String(Files.readAllBytes(Paths.get(styleFile.getAbsolutePath())));
+        String styleResponse = HTTPUtils.putXml("http://" + gsHost + ":" + gsPort + "/geoserver/rest/workspaces/"+dbSchema+"/layers/" + tableNameGrundnutzung, styleFileContent, gsUser, gsPwd);
+        log.info(styleResponse);
+        if (featureTypeResponse == null) {
+            throw new Exception("Error applying style.");
+        }  
     }
 
     private File writeStyleXml(String xmlFileName, String layerName, String styleName) throws TransformerException, ParserConfigurationException {

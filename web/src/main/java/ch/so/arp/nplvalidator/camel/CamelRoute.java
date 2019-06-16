@@ -29,8 +29,8 @@ public class CamelRoute extends RouteBuilder {
         from("direct:nplValidator")
         .process(ili2pgImportProcessor)
         .process(denormalizeTablesProcessor)
-        //.process(publishProcessor)
-        .log(LoggingLevel.INFO, "Hallo Welt.")
+        .process(publishProcessor)
+        .log(LoggingLevel.INFO, "All done.")
         .to("file:///tmp/"); 
 
     }

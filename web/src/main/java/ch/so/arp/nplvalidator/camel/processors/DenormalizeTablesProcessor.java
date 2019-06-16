@@ -68,5 +68,4 @@ public class DenormalizeTablesProcessor implements Processor {
             log.error(e.getMessage());
         }
     }
-
 }

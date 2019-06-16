@@ -165,14 +165,12 @@ public class HTTPUtils {
                 case HttpURLConnection.HTTP_ACCEPTED:
                     String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
                     log.info(responseString);
-                    return responseString;
+                    return responseString; 
                 default:
                     String badResponseString = EntityUtils.toString(response.getEntity(), "UTF-8");
                     log.error("Bad response: code["+status+"]" + " url["+httpMethod.getURI().toString()+"]" + " method["+httpMethod.getMethod()+"]: " + badResponseString);
                     return null;
             }
-            
-
         } catch (ClientProtocolException e) {
             log.error("Couldn't connect to [" + httpMethod.getURI().toString() + "]");
             return null;
