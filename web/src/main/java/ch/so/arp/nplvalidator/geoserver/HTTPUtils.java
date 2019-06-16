@@ -4,20 +4,14 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
@@ -25,13 +19,58 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HTTPUtils {
     private static final Logger log = LoggerFactory.getLogger(HTTPUtils.class);
+
+    /**
+     * POSTs a String representing an XML document to the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param content The XML content to be sent as a String.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    public static String postXml(String url, String content, String username, String pw) {
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put(HttpHeaders.CONTENT_TYPE, "application/xml");
+        return post(url, content, headers, username, pw);
+    }
+
+    /**
+     * Performs a POST to the given URL. <BR>
+     * Basic auth is used if both username and pw are not null.
+     * 
+     * @param url The URL where to connect to.
+     * @param content  The content to be sent as a String.
+     * @param headers  The header to be sent.
+     * @param username Basic auth credential. No basic auth if null.
+     * @param pw Basic auth credential. No basic auth if null.
+     * @return The HTTP response as a String if the HTTP response code was 200
+     *         (OK).
+     * @throws MalformedURLException
+     * @return the HTTP response or <TT>null</TT> on errors.
+     */
+    public static String post(String url, String content, Map<String, String> headers, String username, String pw) {
+        try {
+            HttpPost httpPost = new HttpPost(url);
+            for (Map.Entry<String, String> header : headers.entrySet()) {
+                httpPost.setHeader(header.getKey(), header.getValue());
+            }
+            return send(httpPost, new StringEntity(content), username, pw);
+        } catch (UnsupportedEncodingException ex) {
+            log.error("Cannot POST " + url, ex);
+            return null;
+        }    
+    }
 
     /**
      * PUTs a String representing an XML document to the given URL. <BR>
@@ -124,21 +163,16 @@ public class HTTPUtils {
                 case HttpURLConnection.HTTP_OK:
                 case HttpURLConnection.HTTP_CREATED:
                 case HttpURLConnection.HTTP_ACCEPTED:
-
-
+                    String responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+                    log.info(responseString);
+                    return responseString;
+                default:
+                    String badResponseString = EntityUtils.toString(response.getEntity(), "UTF-8");
+                    log.error("Bad response: code["+status+"]" + " url["+httpMethod.getURI().toString()+"]" + " method["+httpMethod.getMethod()+"]: " + badResponseString);
+                    return null;
             }
-            HttpEntity entity = response.getEntity();
-            String responseString = EntityUtils.toString(entity, "UTF-8");
             
-            // ResponseHandler<String> responseHandler = response -> {
-            //     int status = response.getStatusLine().getStatusCode();
-            //     if (status >= 200 && status < 300) {
-            //         HttpEntity entity = response.getEntity();
-            //         return entity != null ? EntityUtils.toString(entity) : null;
-            //     } else {
-            //         throw new ClientProtocolException("Unexpected response status: " + status);
-            //     }
-            // };    
+
         } catch (ClientProtocolException e) {
             log.error("Couldn't connect to [" + httpMethod.getURI().toString() + "]");
             return null;
@@ -146,11 +180,5 @@ public class HTTPUtils {
             log.error("Couldn't connect to [" + httpMethod.getURI().toString() + "]");
             return null;
         }
-
-        return null;
-
     }
-
-
-
 }

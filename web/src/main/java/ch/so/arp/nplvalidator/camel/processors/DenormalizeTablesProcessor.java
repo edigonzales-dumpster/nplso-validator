@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.stream.Collectors;
 
 import org.apache.camel.Exchange;
@@ -54,20 +55,18 @@ public class DenormalizeTablesProcessor implements Processor {
             sql = reader.lines().collect(Collectors.joining((System.lineSeparator())));
         }
             
-        log.info(sql);
-        log.info(sql);
-
+        sql = "SET search_path TO '" + dbSchema + "';\n\n" + sql;
 
         String dbUrl = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbDatabase;
 
         try (Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPwd)) {
-
+            Statement statement = connection.createStatement();
+            boolean result = statement.execute(sql);
+            log.info("Denormalized tables created.");
         } catch (SQLException e) {
             e.printStackTrace();
             log.error(e.getMessage());
         }
-
-
     }
 
 }
