@@ -80,12 +80,10 @@
             // fired.
             $("#frmUpload")[0].reset();
 
-            /*
             $("#frmUpload").submit(function (e) {
                 $("#btnSubmit").attr("disabled", true);
                 return true;
             });
-            */
             
             $(".custom-file-input").on("change", function() {
                 var fileName = $(this).val().split("\\").pop();

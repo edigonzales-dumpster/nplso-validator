@@ -44,13 +44,14 @@ flattened_documents AS
         x.last_ursprung AS t_id,
         dokument.t_ili_tid AS t_ili_tid,        
         dokument.titel AS titel,
-        dokument.offiziellertitel AS offizellertitel,
+        dokument.offiziellertitel AS offiziellertitel,
         dokument.abkuerzung AS abkuerzung,
         dokument.offiziellenr AS offiziellenr,
         dokument.kanton AS kanton,
         dokument.gemeinde AS gemeinde,
         dokument.rechtsstatus AS rechtsstatus,
-        dokument.publiziertab AS publiziertab
+        dokument.publiziertab AS publiziertab,
+        ('https://geo.so.ch/docs/ch.so.arp.zonenplaene/Zonenplaene_pdf/'||dokument.textimweb)::text AS textimweb
     FROM 
         x
         LEFT JOIN rechtsvorschrften_dokument AS dokument

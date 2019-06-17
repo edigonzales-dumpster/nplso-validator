@@ -1,6 +1,7 @@
 package ch.so.arp.nplvalidator.controllers;
 
 import java.io.File;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +47,7 @@ public class UploadController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> uploadFile(
-            @RequestParam(name = "file", required = true) MultipartFile uploadFile) {
+            @RequestParam(name = "file", required = true) MultipartFile uploadFile, @RequestHeader String host) {
      
         try {
             // Get the file name.
@@ -87,7 +89,13 @@ public class UploadController {
             if (result.isFailed()) {
                 return ResponseEntity.badRequest().contentType(MediaType.parseMediaType("text/plain")).body(result.getException().getMessage());
             } else {
-                return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body("alles gut");
+
+                // TODO:
+                // - Get bounding box from Geoserver rest api?
+                // - How to deal with public host and port of Geoserver?
+                String namespace = tmpDirectory.toFile().getName();
+                String body = "<html><a href='http://localhost:8080/geoserver/"+namespace+"/wms?service=WMS&version=1.1.0&request=GetMap&layers="+namespace+"%3Anpl_grundnutzung&bbox=2637457.705%2C1250408.875%2C2640056.222%2C1252131.905&width=768&height=509&srs=EPSG%3A2056&format=application/openlayers'>http://localhost:8080/geoserver/"+namespace+"/wms?service=WMS&version=1.1.0&request=GetMap&layers="+namespace+"%3Anpl_grundnutzung&bbox=2637457.705%2C1250408.875%2C2640056.222%2C1252131.905&width=768&height=509&srs=EPSG%3A2056&format=application/openlayers</a></<html>";                
+                return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(body);
             }
             
         } catch (Exception e) {

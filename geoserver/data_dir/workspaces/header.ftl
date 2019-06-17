@@ -9,7 +9,7 @@ like td, tr, and so on.
     <title>GeoServer GetFeatureInfo output</title>
   </head>
   <style type="text/css">
-        @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed:300,500,700&display=swap');
+        @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed:300,400,500,700&display=swap');
         body {
                 padding:1em;
         }
@@ -22,7 +22,7 @@ like td, tr, and so on.
                 padding:0;
                 width: 700px;
                 font-size: 100%;
-                font-weight: 300;
+                font-weight: 400;
                 font-size: 13px;
                 /*padding:.2em .1em;*/
         }
@@ -45,12 +45,12 @@ like td, tr, and so on.
         table.featureInfo th{
                 padding:.2em .2em;
                 /*text-transform:uppercase;*/
-                font-weight:700;
+                font-weight:400;
                 background:#eee;
         }
         table.featureInfo td{
                 background:#fff;
-                padding: 0.5em;
+                padding: 0.3em;
                 vertical-align: top;
         }
         table.featureInfo tr.odd td{
